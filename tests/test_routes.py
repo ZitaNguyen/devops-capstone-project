@@ -124,7 +124,7 @@ class TestAccountService(TestCase):
         self.assertEqual(response.status_code, status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
 
     ######################################################################
-    #  READ AN A C C O U N T   T E S T   C A S E S
+    #  R E A D   A N   A C C O U N T   T E S T   C A S E S
     ######################################################################
     def test_read_an_account(self):
         """It should read an account"""
@@ -142,7 +142,7 @@ class TestAccountService(TestCase):
         self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
 
     ######################################################################
-    #  UPDATE AN A C C O U N T   T E S T   C A S E 
+    #  U P D A T E   A N   A C C O U N T   T E S T   C A S E 
     ######################################################################
     def test_update_an_account(self):
         """It should update an account"""
@@ -161,8 +161,13 @@ class TestAccountService(TestCase):
         data = resp_put.get_json()
         self.assertEqual(data["name"], mock_data["name"])
 
+    def test_account_not_found_when_update(self):
+        """It should not update an account that is not found"""
+        resp = self.client.put(f"{BASE_URL}/0")
+        self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
+
     ######################################################################
-    #  DELETE AN A C C O U N T   T E S T   C A S E 
+    #  D E L E T E   A N   A C C O U N T   T E S T   C A S E 
     ######################################################################
     def test_delete_an_account(self):
         """It should delete an account"""
@@ -175,3 +180,13 @@ class TestAccountService(TestCase):
             f"{BASE_URL}/{account.id}", content_type="application/json"
         )
         self.assertEqual(resp.status_code, status.HTTP_204_NO_CONTENT)
+    
+    ######################################################################
+    #  L I S T   A L L   A C C O U N T S   T E S T   C A S E 
+    ######################################################################
+    def test_list_all_accounts(self):
+        """It should list all accounts"""
+        resp = self.client.get(
+            f"{BASE_URL}", content_type="application/json"
+        )
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
