@@ -142,7 +142,7 @@ class TestAccountService(TestCase):
         self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
 
     ######################################################################
-    #  UPDATE AN A C C O U N T   T E S T   C A S E S
+    #  UPDATE AN A C C O U N T   T E S T   C A S E 
     ######################################################################
     def test_update_an_account(self):
         """It should update an account"""
@@ -160,3 +160,18 @@ class TestAccountService(TestCase):
 
         data = resp_put.get_json()
         self.assertEqual(data["name"], mock_data["name"])
+
+    ######################################################################
+    #  DELETE AN A C C O U N T   T E S T   C A S E 
+    ######################################################################
+    def test_delete_an_account(self):
+        """It should delete an account"""
+        account = self._create_accounts(1)[0]
+        resp = self.client.get(
+            f"{BASE_URL}/{account.id}", content_type="application/json"
+        )
+
+        resp = self.client.delete(
+            f"{BASE_URL}/{account.id}", content_type="application/json"
+        )
+        self.assertEqual(resp.status_code, status.HTTP_204_NO_CONTENT)
