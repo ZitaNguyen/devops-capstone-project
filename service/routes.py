@@ -154,3 +154,19 @@ def delete_accounts(account_id):
         account.delete()
 
     return "", status.HTTP_204_NO_CONTENT
+
+######################################################################
+# LIST ALL ACCOUNTS
+######################################################################
+@app.route("/accounts", methods=["GET"])
+def list_accounts():
+    """
+    Lists all Accounts
+    This endpoint will list all Accounts in the database
+    """
+    app.logger.info("Request to list all Accounts")
+
+    accounts = Account.all()
+    serialized_accounts = [account.serialize() for account in accounts] if accounts else []
+
+    return jsonify(serialized_accounts), status.HTTP_200_OK
