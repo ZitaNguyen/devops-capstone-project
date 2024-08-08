@@ -6,6 +6,7 @@ on:
   pull_request:
     branches:
       - main
+
 jobs:
   build:
     runs-on: ubuntu:latest
@@ -26,8 +27,8 @@ jobs:
           --health-retries 5
 
     steps:
-      - name: actions
-        uses: checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
 
       - name: Install dependencies
         run: |
