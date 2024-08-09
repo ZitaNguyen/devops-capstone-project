@@ -57,49 +57,23 @@ def create_accounts():
         jsonify(message), status.HTTP_201_CREATED, {"Location": location_url}
     )
 
+
 ######################################################################
 # LIST ALL ACCOUNTS
 ######################################################################
+@app.route("/accounts", methods=["GET"])
+def list_accounts():
+    """
+    Lists all Accounts
+    This endpoint will list all Accounts in the database
+    """
+    app.logger.info("Request to list all Accounts")
 
-# ... place you code here to LIST accounts ...
+    accounts = Account.all()
+    serialized_accounts = [account.serialize() for account in accounts] if accounts else []
 
+    return jsonify(serialized_accounts), status.HTTP_200_OK
 
-######################################################################
-# READ AN ACCOUNT
-######################################################################
-
-# ... place you code here to READ an account ...
-
-
-######################################################################
-# UPDATE AN EXISTING ACCOUNT
-######################################################################
-
-# ... place you code here to UPDATE an account ...
-
-
-######################################################################
-# DELETE AN ACCOUNT
-######################################################################
-
-# ... place you code here to DELETE an account ...
-
-
-######################################################################
-#  U T I L I T Y   F U N C T I O N S
-######################################################################
-
-
-def check_content_type(media_type):
-    """Checks that the media type is correct"""
-    content_type = request.headers.get("Content-Type")
-    if content_type and content_type == media_type:
-        return
-    app.logger.error("Invalid Content-Type: %s", content_type)
-    abort(
-        status.HTTP_415_UNSUPPORTED_MEDIA_TYPE,
-        f"Content-Type must be {media_type}",
-    )
 
 ######################################################################
 # READ AN ACCOUNT
@@ -118,8 +92,9 @@ def get_accounts(account_id):
 
     return account.serialize(), status.HTTP_200_OK
 
+
 ######################################################################
-# UPDATE AN ACCOUNT
+# UPDATE AN EXISTING ACCOUNT
 ######################################################################
 @app.route("/accounts/<int:account_id>", methods=["PUT"])
 def update_accounts(account_id):
@@ -138,6 +113,7 @@ def update_accounts(account_id):
 
     return account.serialize(), status.HTTP_200_OK
 
+
 ######################################################################
 # DELETE AN ACCOUNT
 ######################################################################
@@ -155,18 +131,17 @@ def delete_accounts(account_id):
 
     return "", status.HTTP_204_NO_CONTENT
 
-######################################################################
-# LIST ALL ACCOUNTS
-######################################################################
-@app.route("/accounts", methods=["GET"])
-def list_accounts():
-    """
-    Lists all Accounts
-    This endpoint will list all Accounts in the database
-    """
-    app.logger.info("Request to list all Accounts")
 
-    accounts = Account.all()
-    serialized_accounts = [account.serialize() for account in accounts] if accounts else []
-
-    return jsonify(serialized_accounts), status.HTTP_200_OK
+######################################################################
+#  U T I L I T Y   F U N C T I O N S
+######################################################################
+def check_content_type(media_type):
+    """Checks that the media type is correct"""
+    content_type = request.headers.get("Content-Type")
+    if content_type and content_type == media_type:
+        return
+    app.logger.error("Invalid Content-Type: %s", content_type)
+    abort(
+        status.HTTP_415_UNSUPPORTED_MEDIA_TYPE,
+        f"Content-Type must be {media_type}",
+    )
