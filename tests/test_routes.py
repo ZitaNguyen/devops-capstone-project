@@ -171,7 +171,7 @@ class TestAccountService(TestCase):
         self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
 
     ######################################################################
-    #  D E L E T E   A N   A C C O U N T   T E S T   C A S E 
+    #  D E L E T E   A N   A C C O U N T   T E S T   C A S E
     ######################################################################
     def test_delete_an_account(self):
         """It should delete an account"""
@@ -184,9 +184,9 @@ class TestAccountService(TestCase):
             f"{BASE_URL}/{account.id}", content_type="application/json"
         )
         self.assertEqual(resp.status_code, status.HTTP_204_NO_CONTENT)
-    
+
     ######################################################################
-    #  L I S T   A L L   A C C O U N T S   T E S T   C A S E 
+    #  L I S T   A L L   A C C O U N T S   T E S T   C A S E
     ######################################################################
     def test_list_all_accounts(self):
         """It should list all accounts"""
@@ -203,7 +203,7 @@ class TestAccountService(TestCase):
         """It should not allow an illegal method call"""
         resp = self.client.delete(BASE_URL)
         self.assertEqual(resp.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
-    
+
     ######################################################################
     #  S E C U R I T Y   H E A D E R S   T E S T   C A S E
     ######################################################################
@@ -219,7 +219,7 @@ class TestAccountService(TestCase):
         }
         for key, value in headers.items():
             self.assertEqual(response.headers.get(key), value)
-    
+
     ######################################################################
     #  C O R S   H E A D E R   T E S T   C A S E
     ######################################################################
